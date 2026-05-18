@@ -192,6 +192,13 @@ export interface TranslationSchema {
     atMentions: string;
     atUrl: string;
     atUrlFailed: string;
+    sessionTitleNoSession: string;
+    sessionTitleNoContent: string;
+    sessionTitleNoTitle: string;
+    sessionTitleUpdated: string;
+    sessionTitleRenameFailed: string;
+    sessionTitleRenamed: string;
+    sessionTitleAutoRenamed: string;
     denied: string;
     alwaysAllowed: string;
     runningCommand: string;
@@ -200,6 +207,7 @@ export interface TranslationSchema {
     continuingAfter: string;
     planStoppedAt: string;
     revisingAfter: string;
+    historyScrollHint: string;
   };
   hooks: {
     head: string;
