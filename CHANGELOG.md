@@ -3,6 +3,80 @@
 All notable changes to Reasonix. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/);
 this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.48.1] — 2026-05-21
+
+**`dsnix` — short alias.** A new `dsnix` shim package lands alongside
+`reasonix` (#1440), so `npx dsnix` is now equivalent to `npx reasonix`
+for users who'd rather type five characters than eight. The shim is
+just a forwarding binary — same CLI, same release cadence — and ships
+on npm with the same version pinning (#1442). The root README documents
+the alias.
+
+**Lifecycle — observability + corpus tests.** Strict lifecycle now
+surfaces step-level evidence and rail decisions through a structured
+observability channel (#1426), so what the loop is doing at each step
+is legible instead of inferred. Two corpus tests lock the behavior in:
+multi-file refactor flow (#1427) and config-migration replay (#1473).
+
+**Approval prompt unification.** Phase 3 of the pause-request work
+(#1322) lands a single `PauseRequest` → UI data model shared by ACP,
+CLI, and Desktop (#1443) — the three surfaces now render the same
+prompt from the same payload instead of each translating in their own
+way. Net: pause prompts stay in sync across surfaces when fields are
+added.
+
+**i18n.** Builtin skill descriptions are now translated (#1468), and
+MCP error toasts + status labels carry zh-CN (#1481). The remaining
+hardcoded English surface in skill picker and MCP error toasts is gone.
+
+**Composer redesign + Ctrl+P shortcut modal.** The input area is
+rebuilt with a denser layout, a clearer affordance for multi-line
+input, and a Ctrl+P shortcut-help modal that lists every key binding
+in one place (#1483). The desktop composer also autosizes for
+multi-line input properly (#1439).
+
+**Java tool — cheaper.** The Java source/decompile tool description
+and output are pruned (#1485), shaving cached prefix tokens. Pairs with
+the #1390 buffer raise from 0.48.0.
+
+**Security.** `metaso` web-search no longer ships with a baked API
+key — it now requires the user-configured key like every other backend
+(#1488). Project-level hooks are trusted without an extra prompt
+provided they live inside the working directory.
+
+**YOLO mode polish.** `run_command` and `run_background` approval
+gates now auto-resolve in YOLO mode (#1489) so power users don't get a
+modal for every shell call after explicitly opting in.
+
+**Perf — folding thresholds.** Normal fold threshold raised 50% → 75%,
+aggressive 70% → 78% (#1461) — the loop now spends less time folding
+context that didn't need to be folded.
+
+**Preflight.** The cap that previously only counted tokens now also
+gates on raw JSON body bytes (#1451), catching oversized payloads that
+weren't reflected in the token count.
+
+**Desktop.** Error cards are dismissable and recoverable variants
+toned down (#1487); orphaned pause-gate modals are cleared on
+`$turn_complete` so a stale gate can't block the next turn (#1484);
+session titles are renameable from the sidebar (#1478); `/btw` now
+echoes input, surfaces busy state, and routes through the side-question
+prompt instead of silently dropping the keystroke (#1472).
+
+**TUI.** SGR mouse mode stays on for Windows Terminal (#1486) —
+alternate-scroll silently breaks the wheel there. The default for
+non-WT terminals switches to alternate-scroll (`?1007h`) (#1477) to
+avoid the click-eats-selection problem on conhost-class hosts.
+
+**Other:**
+- `fix(cost)` show session-aggregate cache hit so `/cost` matches the
+  status-bar number (#1482)
+- `fix(plan)` Accept executes immediately when the plan has no open
+  questions instead of waiting on a non-existent answer (#1480)
+- `fix` resolve root-relative edit-block paths (#1452)
+- `fix(tests)` bump chat-mcp-startup timeout to 30s for Windows test
+  matrix (#1471)
+
 ## [0.48.0] — 2026-05-20
 
 **Proxy-aware networking.** `NO_PROXY` is now honored end-to-end and
